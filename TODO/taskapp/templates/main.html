@@ -1,0 +1,58 @@
+    {% extends "base.html" %}
+    {% block content%}
+    <div>
+     <div class = "container pt-4">
+     <div class = "row p-0 mt-4">
+     <div class = "col-lg-5 shadow mx-auto shadow p-0">
+        <div class = "alert alert-success"><h1>Add Your New Task</h1></div>
+        <div class = "p-4">
+            <form  method = "POST" action="/add_task/"> 
+                {% csrf_token %}
+                {{ form.as_p}}
+                <hr>
+                <input class = "btn btn-success" type="submit" value="ADD TASK">
+            </form>
+        </div>
+    </div>
+    <div class = "col">
+    <div class = "border">
+     <div>
+        <table class = "table">
+            <thead >
+                <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    {% for x in todos %}
+                    <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{x.title}}</td>
+                    <td>{{x.status}}</td>
+                    <td>{{x.priority}}</td>
+                    <td><a href = "/delete_task/{{x.id}}" title = "Delete" >🗑️</a>
+                    {% if x.status == 'P'%}
+                    <a href = "/delete_task/{{x.id}}" title = "Mark Complete" >✅</a>
+                    {% else %}
+                    <a href = "/delete_task/{{x.id}}" title = "Mark Pending" >⏰</a>
+                    {% endif %}</td>
+                
+                    </tr>
+
+                    {% endfor %}
+                
+                
+            </tbody>
+        </table>
+     </div>
+     </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    {% endblock %}
